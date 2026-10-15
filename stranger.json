@@ -1,0 +1,89 @@
+{
+  "expectedTarballFiles": [
+    "package/LICENSE",
+    "package/README.md",
+    "package/dist/adapter.d.ts",
+    "package/dist/adapter.js",
+    "package/dist/index.d.ts",
+    "package/dist/index.js",
+    "package/dist/server.d.ts",
+    "package/dist/server.js",
+    "package/dist/session-directory.d.ts",
+    "package/dist/session-directory.js",
+    "package/docs/api/README.md",
+    "package/docs/api/index.md",
+    "package/docs/api/server.md",
+    "package/package.json"
+  ],
+  "localDependencies": ["../cairn", "../mule", "../shiitake"],
+  "runtimeFixture": "test/stranger/runtime.mjs",
+  "typecheckFixture": "test/stranger/consumer.mts",
+  "docs": {
+    "sigil": "restricted",
+    "home": {
+      "lead": "Connect editors like Zed to an authorized Shiitake Session over the Agent Client Protocol, for hosts that embed ACP themselves.",
+      "example": {
+        "file": "home.ts",
+        "title": "Answer an ACP initialize call",
+        "caption": "The fetch adapter calls the server in-process: no network, model or credentials. Prints the protocol version the server answers with."
+      },
+      "ladder": {
+        "start": [
+          {
+            "title": "Quickstart",
+            "href": "/quickstart/",
+            "description": "Open an ACP connection and read its initialize response."
+          },
+          {
+            "title": "How Graft divides ownership",
+            "href": "/concepts/#core-concepts",
+            "description": "The directory, Shiitake and the ACP connection; what each one owns."
+          }
+        ],
+        "tasks": [
+          {
+            "title": "Use Fungi in your editor",
+            "href": "https://docs.fungi.computer/guides/use-fungi-in-your-editor/",
+            "description": "Run fungi acp; no embedding needed."
+          },
+          {
+            "title": "Authorize Session access",
+            "href": "/api/entry/",
+            "description": "Implement AuthorizedShiitakeSessionDirectory's create and load callbacks."
+          },
+          {
+            "title": "Serve ACP over HTTP",
+            "href": "/api/server/",
+            "description": "createShiitakeAcpServer hosts the adapter over Streamable HTTP."
+          },
+          {
+            "title": "Check what content ACP supports",
+            "href": "/concepts/#editor-capabilities",
+            "description": "Text, images and resource links; audio and other binaries are refused."
+          }
+        ],
+        "reference": [
+          {
+            "title": "API reference",
+            "href": "/api/",
+            "description": "Every export from the root and the server entrypoint."
+          },
+          {
+            "title": "Install",
+            "href": "/install/",
+            "description": "Entrypoints, runtime dependencies and Node.js version."
+          },
+          {
+            "title": "Status and limits",
+            "href": "/status/",
+            "description": "Stability, errors and license."
+          }
+        ]
+      }
+    }
+  },
+  "consumerDevDependencies": {
+    "@agentclientprotocol/sdk": "1.7.0",
+    "@modelcontextprotocol/sdk": "1.30.0"
+  }
+}

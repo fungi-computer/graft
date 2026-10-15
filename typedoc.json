@@ -1,0 +1,10 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "extends": "../../tooling/docs/typedoc.base.json",
+  "name": "@fungi.computer/graft",
+  "entryPoints": ["src/index.ts", "src/server.ts"],
+  "tsconfig": "tsconfig.json",
+  "out": "docs/api",
+  "readme": "docs/overview.md",
+  "mergeReadme": true
+}
