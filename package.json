@@ -1,6 +1,6 @@
 {
   "name": "@fungi.computer/graft",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "ACP v1 projection for an authorized Shiitake Session",
   "type": "module",
   "main": "./dist/index.js",
@@ -60,6 +60,7 @@
     }
   },
   "license": "MIT",
+  "author": "Levi <levi@technomancy.dev>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fungi-computer/graft.git"
