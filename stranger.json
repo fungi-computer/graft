@@ -17,7 +17,11 @@
   ],
   "localDependencies": ["../cairn", "../mule", "../shiitake"],
   "runtimeFixture": "test/stranger/runtime.mjs",
-  "typecheckFixture": "test/stranger/consumer.mts",
+  "typechecks": [
+    {
+      "fixture": "test/stranger/consumer.mts"
+    }
+  ],
   "docs": {
     "sigil": "restricted",
     "home": {

@@ -187,6 +187,8 @@ function fixture(
   const session: ShiitakeSession = {
     address: `test://shiitake/${sessionId}`,
     command: unusedCommand,
+    withdraw: unusedCommand,
+    latestPending: () => Promise.resolve(null),
     extension: () => ({ call: unusedCommand }),
     abort: () => {
       aborted += 1;
@@ -245,6 +247,7 @@ function fixture(
             ],
             pending: { total: 0, prompts: [], hasMore: false },
             activity: idleActivity,
+            toolOutput: [],
             progress: null,
             extensions: {},
             attention: [],
@@ -364,6 +367,7 @@ function fixture(
         terminals: [],
         pending: { total: 0, prompts: [], hasMore: false },
         activity: idleActivity,
+        toolOutput: [],
         progress: null,
         extensions: {},
         attention: [],
@@ -381,6 +385,7 @@ function fixture(
           terminals: [],
           pending: { total: 0, prompts: [], hasMore: false },
           activity: idleActivity,
+          toolOutput: [],
           progress: null,
           extensions: {},
           attention: [],

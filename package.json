@@ -1,6 +1,6 @@
 {
   "name": "@fungi.computer/graft",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "ACP v1 projection for an authorized Shiitake Session",
   "type": "module",
   "main": "./dist/index.js",
