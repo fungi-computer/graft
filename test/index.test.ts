@@ -187,6 +187,7 @@ function fixture(
   const session: ShiitakeSession = {
     address: `test://shiitake/${sessionId}`,
     command: unusedCommand,
+    readSettlement: unusedCommand,
     withdraw: unusedCommand,
     latestPending: () => Promise.resolve(null),
     extension: () => ({ call: unusedCommand }),

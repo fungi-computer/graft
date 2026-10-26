@@ -1,5 +1,19 @@
 # @fungi.computer/graft
 
+## 0.1.2
+
+### Patch Changes
+
+- Changes since 0.1.1:
+
+  - fix(shiitake): target queued session activity wakes
+  - fix(shiitake): await exact command settlement without session watches
+
+- Updated dependencies
+- Updated dependencies
+  - @fungi.computer/mule@0.2.0
+  - @fungi.computer/shiitake@0.4.0
+
 ## 0.1.1
 
 ### Patch Changes

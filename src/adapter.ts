@@ -292,6 +292,7 @@ async function projectFrame(
   turn: TurnProjection,
 ): Promise<readonly SessionTerminal[]> {
   // ACP continues to expose durable tool results, not transient output.
+  if (frame.kind === "activity") return [];
   if (frame.kind === "tool_output") return [];
   if (frame.kind === "progress") {
     await projectProgress(client, sessionId, frame.progress, turn);
