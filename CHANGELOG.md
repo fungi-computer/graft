@@ -1,5 +1,16 @@
 # @fungi.computer/graft
 
+## 0.1.5
+
+### Patch Changes
+
+- Changes since 0.1.4:
+
+  - fix(shiitake): stream bounded offset append progress across all clients
+
+- Updated dependencies
+  - @fungi.computer/shiitake@0.7.0
+
 ## 0.1.4
 
 ### Patch Changes

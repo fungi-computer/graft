@@ -10,7 +10,7 @@ import type {
 import type {
   SessionFrame,
   SessionMessage,
-  SessionProgress,
+  SessionProgressDelta,
   ShiitakeSession,
   SessionTerminal,
 } from "@fungi.computer/shiitake/client";
@@ -151,7 +151,7 @@ function notify(
 }
 
 /** Text and thinking already sent for one Shiitake message identity. */
-type Streamed = { text: string; thinking: string };
+type Streamed = { text: number; thinking: number };
 
 /**
  * What one prompt turn has already sent. ACP clients append every chunk, so
@@ -166,19 +166,11 @@ type TurnProjection = {
   projected: Set<string>;
 };
 
-/**
- * Return the part of `next` that extends what was sent. ACP chunks cannot be
- * retracted, so a revision that does not extend the sent text sends nothing.
- */
-function unsent(sent: string, next: string): string {
-  return next.startsWith(sent) ? next.slice(sent.length) : "";
-}
-
 async function projectMessage(
   client: acp.AgentContext,
   sessionId: string,
   message: SessionMessage,
-  streamed: Streamed = { text: "", thinking: "" },
+  streamed: Streamed = { text: 0, thinking: 0 },
 ): Promise<void> {
   const value: Message = message.value;
   if (value.role === "system") return;
@@ -192,16 +184,15 @@ async function projectMessage(
   }
 
   if (value.role === "assistant") {
-    const thinking = unsent(
+    const thinking = thinkingFromAssistant(value.content).slice(
       streamed.thinking,
-      thinkingFromAssistant(value.content),
     );
     if (thinking)
       await notify(client, sessionId, {
         sessionUpdate: "agent_thought_chunk",
         content: acpText(thinking),
       });
-    const text = unsent(streamed.text, textFromAssistant(value.content));
+    const text = textFromAssistant(value.content).slice(streamed.text);
     if (text)
       await notify(client, sessionId, {
         sessionUpdate: "agent_message_chunk",
@@ -237,19 +228,31 @@ async function projectMessage(
 async function projectProgress(
   client: acp.AgentContext,
   sessionId: string,
-  progress: SessionProgress,
+  progress: SessionProgressDelta,
   turn: TurnProjection,
 ): Promise<void> {
   if (turn.projected.has(progress.messageId)) return;
   const sent = turn.streamed.get(progress.messageId) ?? {
-    text: "",
-    thinking: "",
+    text: 0,
+    thinking: 0,
   };
-  const thinking = unsent(sent.thinking, progress.thinking);
-  const text = unsent(sent.text, progress.text);
+  // ACP cannot retract text or represent a missing prefix. If a reset starts
+  // beyond what it has seen, leave that channel to exact durable completion.
+  const thinking =
+    progress.thinking.offset > sent.thinking
+      ? ""
+      : progress.thinking.append.slice(
+          Math.max(0, sent.thinking - progress.thinking.offset),
+        );
+  const text =
+    progress.text.offset > sent.text
+      ? ""
+      : progress.text.append.slice(
+          Math.max(0, sent.text - progress.text.offset),
+        );
   turn.streamed.set(progress.messageId, {
-    text: sent.text + text,
-    thinking: sent.thinking + thinking,
+    text: sent.text + text.length,
+    thinking: sent.thinking + thinking.length,
   });
   if (thinking)
     await notify(client, sessionId, {
@@ -300,10 +303,25 @@ async function projectFrame(
   }
 
   if (frame.kind === "reset") {
-    // A reset replaces the baseline mid-turn. Project this turn's messages
-    // that were not already sent; everything else is history. Later progress
-    // frames carry cumulative text, so live progress resumes from its delta.
+    // A reset replaces the baseline mid-turn. Completed messages fill any
+    // missing prefix; a non-truncated tail may resume the live appends too.
     await projectTurnMessages(client, sessionId, frame.baseline.messages, turn);
+    const progress = frame.baseline.progress;
+    if (progress !== null)
+      await projectProgress(
+        client,
+        sessionId,
+        {
+          messageId: progress.messageId,
+          revision: progress.revision,
+          text: { offset: progress.textOffset, append: progress.text },
+          thinking: {
+            offset: progress.thinkingOffset,
+            append: progress.thinking,
+          },
+        },
+        turn,
+      );
     return frame.baseline.terminals;
   }
 

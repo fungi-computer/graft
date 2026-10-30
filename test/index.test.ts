@@ -118,6 +118,8 @@ function progressFrame(
   revision: number,
   text: string,
   thinking: string,
+  textOffset = 0,
+  thinkingOffset = 0,
 ): SessionFrame {
   return {
     kind: "progress",
@@ -125,10 +127,8 @@ function progressFrame(
     progress: {
       messageId: "reply-1",
       revision,
-      text,
-      thinking,
-      textTruncated: false,
-      thinkingTruncated: false,
+      text: { offset: textOffset, append: text },
+      thinking: { offset: thinkingOffset, append: thinking },
     },
   };
 }
@@ -309,8 +309,7 @@ function fixture(
           attention: [],
         });
       } else {
-        // What Shiitake sends for one reply: the prompt entry, cumulative
-        // progress revisions, then the completed message under the same id.
+        // The prompt entry, offset/append progress, then exact completion.
         emit({
           kind: "update",
           delivery: "live",
@@ -323,8 +322,8 @@ function fixture(
           attention: [],
         });
         emit(progressFrame(1, "", "Let"));
-        emit(progressFrame(2, "Hel", "Let me"));
-        emit(progressFrame(3, "Hello", "Let me think"));
+        emit(progressFrame(2, "Hel", " me", 0, 3));
+        emit(progressFrame(3, "lo", " think", 3, 6));
         emit({
           kind: "update",
           delivery: "live",
