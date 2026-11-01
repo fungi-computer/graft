@@ -1,5 +1,20 @@
 # @fungi.computer/graft
 
+## 0.2.0
+
+### Minor Changes
+
+- Changes since 0.1.6:
+
+  - feat(shiitake): retain bounded Session feeds on current Integration
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @fungi.computer/mule@0.2.2
+  - @fungi.computer/shiitake@0.9.0
+
 ## 0.1.6
 
 ### Patch Changes
