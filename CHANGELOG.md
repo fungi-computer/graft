@@ -1,5 +1,14 @@
 # @fungi.computer/graft
 
+## 0.2.6
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @fungi.computer/mule@0.2.3
+  - @fungi.computer/shiitake@0.12.0
+
 ## 0.2.5
 
 ### Patch Changes
