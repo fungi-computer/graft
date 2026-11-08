@@ -11,23 +11,12 @@ Graft is for people embedding ACP in their own host.
 
 ## Install or set up
 
-Graft is a public package qualified with packed npm consumers. Qualification
-does not publish an npm release; check the registry before choosing a released
-version. To build the source workspace and qualify its tarballs:
-
 ```sh
-pnpm install --frozen-lockfile
-pnpm turbo:run run build --filter=@fungi.computer/graft
-pnpm --filter @fungi.computer/graft run pack
-pnpm --filter @fungi.computer/graft run stranger
+npm install @fungi.computer/graft
 ```
 
-The source workspace supplies Graft's workspace dependencies. The stranger proof
-packs the dependency closure and installs it in a fresh consumer; a standalone
-release needs those dependencies published too. Strict TypeScript consumers also
-install `@modelcontextprotocol/sdk@1.30.0`: the transitive Google GenAI
-declarations reference this optional peer. Both packed proofs include it; the
-stranger proof keeps library checking enabled.
+Strict TypeScript consumers also install `@modelcontextprotocol/sdk@1.30.0`: the
+transitive Google GenAI declarations reference this optional peer.
 
 ## Quick start
 
@@ -129,7 +118,18 @@ does not delete the Session.
 
 Run `pnpm --filter @fungi.computer/graft test` for the ACP protocol and
 lifecycle tests, and `pnpm --filter @fungi.computer/graft build` to compile the
-package. The package uses the MIT license in [`LICENSE`](LICENSE).
+package. To qualify the packed tarballs as a stranger would install them:
+
+```sh
+pnpm install --frozen-lockfile
+pnpm turbo:run run build --filter=@fungi.computer/graft
+pnpm --filter @fungi.computer/graft run pack
+pnpm --filter @fungi.computer/graft run stranger
+```
+
+The stranger proof packs the dependency closure and installs it in a fresh
+consumer with library checking enabled. The package uses the MIT license in
+[`LICENSE`](LICENSE).
 
 ## Editor capabilities
 
