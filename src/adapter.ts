@@ -130,7 +130,10 @@ function textFromAssistant(content: AssistantMessage["content"]): string {
 
 function thinkingFromAssistant(content: AssistantMessage["content"]): string {
   return content
-    .filter((part): part is ThinkingContent => part.type === "thinking")
+    .filter(
+      (part): part is ThinkingContent =>
+        part.type === "thinking" && part.redacted !== true,
+    )
     .map((part) => part.thinking)
     .join("");
 }

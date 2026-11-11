@@ -1,5 +1,13 @@
 # @fungi.computer/graft
 
+## 0.2.12
+
+### Patch Changes
+
+- Changes since 0.2.11:
+
+  - fix(parakeet,graft): keep redacted reasoning placeholders out of thoughts
+
 ## 0.2.11
 
 ### Patch Changes

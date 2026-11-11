@@ -254,6 +254,39 @@ function fixture(
             attention: [],
           },
         });
+      } else if (text === "redacted") {
+        emit({
+          kind: "update",
+          delivery: "live",
+          cursor: `${commandId}-redacted`,
+          pending: { total: 0, prompts: [], hasMore: false },
+          messages: [
+            message(
+              assistant(
+                [
+                  {
+                    type: "thinking",
+                    thinking: "[Reasoning redacted]",
+                    thinkingSignature: "opaque-provider-payload",
+                    redacted: true,
+                  },
+                  { type: "text", text: "Done" },
+                ],
+                "stop",
+                3,
+              ),
+              commandId,
+              3,
+              "redacted-1",
+            ),
+          ],
+          terminals: [
+            { commandId, outcome: "completed", sequence: 3, diagnostic: null },
+          ],
+          activity: idleActivity,
+          extensions: {},
+          attention: [],
+        });
       } else if (mode === "tool") {
         emit({
           kind: "update",
@@ -659,6 +692,36 @@ describe("Shiitake ACP v1 adapter", () => {
     expect(joined("agent_thought_chunk")).toBe("Let me think");
     // The client's own prompt is not echoed back during its turn.
     expect(joined("user_message_chunk")).toBe("");
+  });
+
+  it("does not forward redacted reasoning as a thought", async () => {
+    const fixtures = new Map<string, Fixture>();
+    const agent = createShiitakeAcpAgent({ directory: directory(fixtures) });
+    const updates: acp.SessionUpdate[] = [];
+    await acp
+      .client({ name: "redacted-client" })
+      .onNotification(acp.methods.client.session.update, ({ params }) => {
+        updates.push(params.update);
+      })
+      .connectWith(agent, async (ctx) => {
+        await initialize(ctx);
+        const created = await ctx.request(acp.methods.agent.session.new, {
+          cwd: "/workspace",
+          mcpServers: [],
+        });
+        await ctx.request(acp.methods.agent.session.prompt, {
+          sessionId: created.sessionId,
+          prompt: [{ type: "text", text: "redacted" }],
+        });
+      });
+    expect(
+      updates.filter(
+        (update) => update.sessionUpdate === "agent_thought_chunk",
+      ),
+    ).toEqual([]);
+    expect(
+      updates.some((update) => update.sessionUpdate === "agent_message_chunk"),
+    ).toBe(true);
   });
 
   it("keeps two ACP Sessions independent", async () => {
