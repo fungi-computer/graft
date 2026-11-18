@@ -1,24 +1,23 @@
 # Graft (`@fungi.computer/graft`)
 
-This package presents an authorized Shiitake Session through the stable Agent
-Client Protocol (ACP) v1. Editor and host integrations use it to create, load,
-prompt, and observe Sessions while the host remains responsible for
-authorization.
+Graft lets code editors that support the Agent Client Protocol, such as Zed,
+open and talk to a Fungi agent conversation. It is for people who build their
+own host.
 
-Just want Fungi in Zed or another ACP editor? Run `fungi acp` — see
-[Use Fungi in your editor](https://docs.fungi.computer/guides/use-fungi-in-your-editor/).
-Graft is for people embedding ACP in their own host.
+```mermaid
+flowchart LR
+  Editor[ACP editor] <-->|ACP v1| Graft
+  Graft -->|authorized directory| Host[Your host]
+  Host --> Session[Shiitake Session]
+```
 
-## Install or set up
+## Quick start
+
+Install it:
 
 ```sh
 npm install @fungi.computer/graft
 ```
-
-Strict TypeScript consumers also install `@modelcontextprotocol/sdk@1.30.0`: the
-transitive Google GenAI declarations reference this optional peer.
-
-## Quick start
 
 Just want Fungi in Zed or another ACP editor? Run `fungi acp` — see
 [Use Fungi in your editor](https://docs.fungi.computer/guides/use-fungi-in-your-editor/).
@@ -69,6 +68,48 @@ needs no model or credentials. The packed runtime proof in
 [`test/stranger/runtime.mjs`](test/stranger/runtime.mjs) exercises this flow on
 Node. [`test/index.test.ts`](test/index.test.ts) additionally proves Session
 creation, prompting and cleanup through the maintained ACP client.
+
+## Common tasks
+
+### Try it in an editor without writing code
+
+Run `fungi acp`. See
+[Use Fungi in your editor](https://docs.fungi.computer/guides/use-fungi-in-your-editor/).
+
+### Start an ACP server
+
+`createShiitakeAcpServer` takes your authorized Session directory. See the Quick
+start.
+
+### See what the editor can do
+
+See [Editor capabilities](#editor-capabilities).
+
+### Know the limits
+
+See Limits and errors.
+
+## Reference
+
+### Overview
+
+This package presents an authorized Shiitake Session through the stable Agent
+Client Protocol (ACP) v1. Editor and host integrations use it to create, load,
+prompt, and observe Sessions while the host remains responsible for
+authorization.
+
+Just want Fungi in Zed or another ACP editor? Run `fungi acp` — see
+[Use Fungi in your editor](https://docs.fungi.computer/guides/use-fungi-in-your-editor/).
+Graft is for people embedding ACP in their own host.
+
+## Install or set up
+
+```sh
+npm install @fungi.computer/graft
+```
+
+Strict TypeScript consumers also install `@modelcontextprotocol/sdk@1.30.0`: the
+transitive Google GenAI declarations reference this optional peer.
 
 ## Core concepts
 
