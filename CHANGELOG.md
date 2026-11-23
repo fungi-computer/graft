@@ -1,5 +1,16 @@
 # @fungi.computer/graft
 
+## 0.2.63
+
+### Patch Changes
+
+- Changes since 0.2.62:
+
+  - fix(shiitake): show every other agent text surface once too
+
+- Updated dependencies
+  - @fungi.computer/shiitake@0.22.11
+
 ## 0.2.62
 
 ### Patch Changes

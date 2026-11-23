@@ -1,3 +1,4 @@
+import { assistantTextBlocks } from "@fungi.computer/mule/assistant-text";
 import * as acp from "@agentclientprotocol/sdk";
 import type {
   AssistantMessage,
@@ -122,10 +123,7 @@ function contentBlocks(
 }
 
 function textFromAssistant(content: AssistantMessage["content"]): string {
-  return content
-    .filter((part): part is PiTextContent => part.type === "text")
-    .map((part) => part.text)
-    .join("");
+  return assistantTextBlocks(content).join("");
 }
 
 function thinkingFromAssistant(content: AssistantMessage["content"]): string {
