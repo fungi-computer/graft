@@ -1,6 +1,6 @@
 {
   "name": "@fungi.computer/graft",
-  "version": "0.2.66",
+  "version": "0.2.67",
   "description": "ACP v1 projection for an authorized Shiitake Session",
   "type": "module",
   "main": "./dist/index.js",
@@ -29,9 +29,9 @@
   },
   "dependencies": {
     "@agentclientprotocol/sdk": "1.7.0",
-    "@fungi.computer/cairn": "0.1.0",
-    "@fungi.computer/mule": "0.4.0",
-    "@fungi.computer/shiitake": "0.23.0"
+    "@fungi.computer/cairn": "0.1.1",
+    "@fungi.computer/mule": "0.4.1",
+    "@fungi.computer/shiitake": "0.23.1"
   },
   "devDependencies": {
     "@types/node": "24.13.3",

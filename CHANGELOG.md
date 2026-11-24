@@ -1,5 +1,14 @@
 # @fungi.computer/graft
 
+## 0.2.67
+
+### Patch Changes
+
+- Updated dependencies
+  - @fungi.computer/cairn@0.1.1
+  - @fungi.computer/mule@0.4.1
+  - @fungi.computer/shiitake@0.23.1
+
 ## 0.2.66
 
 ### Patch Changes
